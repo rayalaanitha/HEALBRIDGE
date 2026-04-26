@@ -1,0 +1,71 @@
+{% extends "admin/base_site.html" %}
+{% load static %}
+
+{% block title %}HealBridge Admin{% endblock %}
+
+{% block extrastyle %}
+{{ block.super }}
+<style>
+    /* General layout */
+    body {
+        background: #f0f2f5;
+        font-family: "Segoe UI", Arial, sans-serif;
+    }
+
+    /* Header bar */
+    #header {
+        background: #2e7d32;
+        color: #fff;
+        padding: 15px;
+    }
+    #header h1 {
+        color: #fff;
+        font-size: 22px;
+        font-weight: bold;
+        margin: 0;
+    }
+
+    /* Sidebar & modules */
+    div#content-main .module caption {
+        background: #1b5e20;
+        color: #fff;
+        font-weight: bold;
+        padding: 6px;
+        border-radius: 4px 4px 0 0;
+    }
+
+    /* Buttons */
+    .button, input[type=submit], .submit-row input {
+        background-color: #2e7d32 !important;
+        color: white !important;
+        border-radius: 6px;
+        padding: 8px 14px;
+        border: none;
+        transition: background 0.3s;
+    }
+    .button:hover, input[type=submit]:hover {
+        background-color: #1b5e20 !important;
+    }
+
+    /* Table styling */
+    .result-list th {
+        background: #c8e6c9 !important;
+    }
+    .result-list tbody tr:nth-child(even) {
+        background: #f9fff9;
+    }
+
+    /* Footer */
+    #footer {
+        background: #2e7d32;
+        color: white;
+        padding: 10px;
+    }
+</style>
+{% endblock %}
+
+{% block branding %}
+<h1 id="site-name">🌿 HealBridge Admin Panel</h1>
+{% endblock %}
+
+{% block nav-global %}{% endblock %}
