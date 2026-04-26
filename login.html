@@ -1,0 +1,114 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="page-container">
+    <div class="card-container">
+        <h2 class="card-title">🔐 Login</h2>
+
+        <!-- Messages -->
+        {% if messages %}
+          {% for message in messages %}
+            <div class="message-box">
+                {{ message }}
+            </div>
+          {% endfor %}
+        {% endif %}
+
+        <!-- Login Form -->
+        <form method="post" class="login-form">
+            {% csrf_token %}
+            <div class="form-group">
+                <input type="text" name="username" placeholder="Username" required>
+            </div>
+            <div class="form-group">
+                <input type="password" name="password" placeholder="Password" required>
+            </div>
+            <button type="submit" class="submit-btn">Login</button>
+        </form>
+
+        
+    </div>
+    
+</div>
+
+<style>
+/* Full-page container */
+.page-container {
+    display: flex;
+    justify-content: center; 
+    align-items: center;     
+    min-height: 100vh;
+    background: #f4f9f6;    
+    padding: 20px;           
+    box-sizing: border-box;
+}
+
+/* Card */
+.card-container {
+    width: 100%;
+    max-width: 400px;
+    padding: 25px 30px;
+    border-radius: 12px;
+    background: #ffffff;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+    box-sizing: border-box;
+    text-align: center;
+}
+
+/* Title */
+.card-title {
+    font-size: 24px;
+    margin-bottom: 20px;
+    color: #065f46;
+    font-weight: 700;
+}
+
+/* Messages */
+.message-box {
+    margin: 8px 0;
+    padding: 10px;
+    background-color: #e0f7fa;
+    color: #006426;
+    border-radius: 5px;
+    font-weight: bold;
+    text-align: center;
+}
+
+/* Form fields */
+.form-group {
+    margin-bottom: 15px;
+}
+.form-group input {
+    width: 100%;
+    padding: 10px;
+    border-radius: 6px;
+    border: 1px solid #d1fae5;
+    box-sizing: border-box;
+    font-size: 14px;
+}
+
+/* Submit button */
+.submit-btn {
+    width: 100%;
+    padding: 12px;
+    background-color: #22c122dd;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background 0.3s ease;
+}
+.submit-btn:hover {
+    background-color: #047817;
+}
+
+/* Signup link */
+.card-container a {
+    text-decoration: none;
+}
+.card-container a:hover {
+    text-decoration: underline;
+}
+</style>
+{% endblock %}

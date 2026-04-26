@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>📋 All Uploaded Prescriptions</h2>
+
+<div class="prescriptions-container">
+    {% if prescriptions %}
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Prescription Image</th>
+                    <th>Extracted Results</th>
+                    <th>Processed</th>
+                    <th>Uploaded At</th>
+                    
+                </tr>
+            </thead>
+            <tbody>
+                {% for pres in prescriptions %}
+                <tr>
+                    <td>{{ pres.id }}</td>
+                    <td>
+                        {% if pres.prescription %}
+                            <img src="{{ pres.prescription.url }}" alt="Prescription {{ pres.id }}" width="150">
+                        {% else %}
+                            -
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if pres.result %}
+                            {% if pres.result.available %}
+                                <b>Available:</b>
+                                {% if pres.result.available is string %}
+                                    {{ pres.result.available }}
+                                {% else %}
+                                    {{ pres.result.available|join:", " }}
+                                {% endif %}
+                                <br>
+                            {% endif %}
+                            {% if pres.result.unavailable %}
+                                <b>Unavailable:</b>
+                                {% if pres.result.unavailable is string %}
+                                    {{ pres.result.unavailable }}
+                                {% else %}
+                                    {{ pres.result.unavailable|join:", " }}
+                                {% endif %}
+                            {% endif %}
+                        {% else %}
+                            -
+                        {% endif %}
+                    </td>
+                    <td>{{ pres.processed }}</td>
+                    <td>{{ pres.created_at|date:"M d, Y, h:i a" }}</td>
+                    <td>
+                        {% if pres.uploaded_by %}
+                            {{ pres.uploaded_by.username }}
+                        {% else %}
+                            -
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>No prescriptions uploaded yet.</p>
+    {% endif %}
+</div>
+
+<style>
+.prescriptions-container table {
+    width: 100%;
+    border-collapse: collapse;
+}
+.prescriptions-container th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
+}
+.prescriptions-container th {
+    background-color: #065f46;
+    color: white;
+}
+.prescriptions-container img {
+    border-radius: 8px;
+}
+</style>
+
+{% endblock %}

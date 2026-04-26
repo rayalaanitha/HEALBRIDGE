@@ -1,0 +1,21 @@
+
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Donation Saved</title>
+  </head>
+  <body>
+    <h2>Donation saved</h2>
+    <p>ID: {{ doc.id }}</p>
+    <p>Name: {{ doc.name }}</p>
+    <p>Expiry: {{ doc.expiry_date }}</p>
+    <p>Cost:{{doc.cost}}</p>
+    <p>Location: {{ doc.location }}</p>
+    {% if doc.image %}
+      <p>Image: <img src="{{ doc.image.url }}" style="max-width:300px;"></p>
+    {% endif %}
+    <p>Donated by: {{ doc.donated_by }}</p>
+    <p><a href="/donate/">Donate another</a> | <a href="/">Home</a></p>
+  </body>
+</html>

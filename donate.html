@@ -1,0 +1,122 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="page-container">
+    <div class="card-container">
+        <h2 class="card-title">💊 Donate Medicine</h2>
+
+        <!-- Pending/Success messages -->
+        {% if messages %}
+          {% for message in messages %}
+            <div class="message-box">
+                {{ message }}
+            </div>
+          {% endfor %}
+        {% endif %}
+
+        <!-- Donation Form -->
+        <form method="post" enctype="multipart/form-data" class="donation-form">
+            {% csrf_token %}
+            {% for field in form %}
+                <div class="form-group">
+                    {{ field.label_tag }}
+                    {{ field }}
+                    {% if field.errors %}
+                        <p class="error">{{ field.errors }}</p>
+                    {% endif %}
+                </div>
+            {% endfor %}
+            <button type="submit" class="submit-btn">Submit Donation</button>
+        </form>
+    </div>
+</div>
+
+<style>
+/* Full-page container for vertical centering */
+.page-container {
+    display: flex;
+    justify-content: center; /* horizontal center */
+    align-items: center;     /* vertical center */
+    min-height: 100vh;
+    background: #f4f9f6;    /* light background for contrast */
+    padding: 20px;           /* some spacing on small screens */
+    box-sizing: border-box;
+}
+
+/* Container Card */
+.card-container {
+    width: 100%;
+    max-width: 480px;
+    padding: 20px 25px;
+    border-radius: 12px;
+    background: #ffffff;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+    box-sizing: border-box;
+}
+
+/* Title */
+.card-title {
+    text-align: center;
+    font-size: 22px;
+    margin-bottom: 18px;
+    color: #065f46;
+    font-weight: 700;
+}
+
+/* Messages */
+.message-box {
+    margin: 8px 0;
+    padding: 10px;
+    background-color: #e0f7fa;
+    color: #006426;
+    border-radius: 5px;
+    font-weight: bold;
+    text-align: center;
+}
+
+/* Form fields */
+.form-group {
+    margin-bottom: 12px;
+}
+.form-group label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 4px;
+    color: #065f46;
+}
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    padding: 8px 10px;
+    border-radius: 6px;
+    border: 1px solid #d1fae5;
+    box-sizing: border-box;
+    font-size: 14px;
+}
+
+/* Submit button */
+.submit-btn {
+    width: 100%;
+    padding: 12px;
+    background-color: #22c122dd;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 8px;
+    transition: background 0.3s ease;
+}
+.submit-btn:hover {
+    background-color: #047817;
+}
+
+/* Error messages */
+.error {
+    color: #b91c1c;
+    font-size: 13px;
+    margin-top: 2px;
+}
+</style>
+{% endblock %}  indhulone change cheyalsindhi

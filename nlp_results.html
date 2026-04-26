@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-4">
+  <h2 class="text-success mb-4">🧠 NLP Extracted Prescription Data</h2>
+
+  {% if results %}
+  <table class="table table-striped table-bordered">
+    <thead class="table-success">
+      <tr>
+        <th>File</th>
+        <th>Extracted Text</th>
+        <th>Available Medicines</th>
+        <th>Unavailable Medicines</th>
+        <th>Sentiment</th>
+        <th>Noun Phrases</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for item in results %}
+      <tr>
+        <td>{{ item.file }}</td>
+        <td><pre style="white-space: pre-wrap;">{{ item.text|default_if_none:"-" }}</pre></td>
+
+        <td><pre style="white-space: pre-wrap;">{{ item.available_meds|default:"-" }}</pre></td>
+        <td>{{ item.unavailable_meds|default:"-" }}</td>
+        <td>{{ item.sentiment|default:"-" }}</td>
+        <td>{{ item.noun_phrases|default:"-" }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% else %}
+  <div class="alert alert-warning">No NLP results found yet.</div>
+  {% endif %}
+</div>
+{% endblock %}

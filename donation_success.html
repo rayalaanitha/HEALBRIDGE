@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="page-container">
+    <div class="card-container">
+        <h2 class="card-title">🎉 Donation Successful!</h2>
+
+        <p class="success-text">
+            Thank you for donating <strong>{{ donation.medicine.name }}</strong>!
+        </p>
+
+        <div class="button-group">
+            <a href="{% url 'donate' %}" class="action-btn">Donate More Medicines</a>
+            <a href="{% url 'donation_dashboard' %}" class="action-btn">Go to Donor Dashboard</a>
+        </div>
+    </div>
+</div>
+
+<style>
+.page-container {
+    display: flex;
+    justify-content: center; 
+    align-items: center;     
+    min-height: 100vh;
+    background: #f4f9f6;    
+    padding: 20px;           
+    box-sizing: border-box;
+}
+.card-container {
+    width: 100%;
+    max-width: 480px;
+    padding: 25px 30px;
+    border-radius: 12px;
+    background: #ffffff;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+    text-align: center;
+}
+.card-title { font-size: 24px; margin-bottom: 15px; color: #065f46; font-weight: 700; }
+.success-text { font-size: 16px; color: #065f46; margin-bottom: 20px; }
+.button-group { display: flex; flex-direction: column; gap: 10px; }
+.action-btn {
+    display: block; text-decoration: none; padding: 12px;
+    background-color: #22c122dd; color: white; border-radius: 8px; font-weight: 600; transition: background 0.3s ease;
+}
+.action-btn:hover { background-color: #047817; }
+</style>
+<!-- Auto-redirect to donate page after 5 seconds (user can click buttons to override) -->
+<script>
+    (function(){
+        try{
+            setTimeout(function(){
+                window.location.href = "{% url 'donate' %}";
+            }, 5000);
+        }catch(e){
+            console && console.error(e);
+        }
+    })();
+</script>
+{% endblock %}

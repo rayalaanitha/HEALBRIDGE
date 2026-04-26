@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>HealBridge</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      display: flex;
+      min-height: 100vh;
+      background: #f0f2f5;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      width: 220px;
+      background: #2e7d32;
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      padding: 20px;
+    }
+
+    .sidebar h2 {
+      margin: 0 0 20px 0;
+      font-size: 20px;
+      text-align: center;
+    }
+
+    .sidebar a {
+      color: #fff;
+      text-decoration: none;
+      padding: 10px;
+      border-radius: 8px;
+      margin: 5px 0;
+      display: block;
+      transition: background 0.3s;
+    }
+
+    .sidebar a:hover {
+      background: #1b5e20;
+    }
+
+    /* Main content */
+    .content {
+      flex: 1;
+      padding: 30px;
+    }
+
+    .card {
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      padding: 40px 30px;
+      max-width: 900px;
+      width: 100%;
+      min-height: 400px;
+      box-sizing: border-box;
+    }
+
+    h1, h2 {
+      margin-top: 0;
+      color: #333;
+    }
+
+    p {
+      color: #555;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 10px 20px;
+      background: #2e7d32;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      margin-top: 10px;
+      text-decoration: none;
+    }
+
+    .btn:hover {
+      background: #1b5e20;
+    }
+
+    input, textarea, select {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      box-sizing: border-box;
+    }
+
+    .result-card {
+      background: #f9fff9;
+      border: 1px solid #c8e6c9;
+      padding: 15px;
+      border-radius: 8px;
+      margin-top: 15px;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <h2>HealBridge</h2>
+    <a href="{% url 'home' %}">🏠 Home</a>
+    <a href="{% url 'request_medicine' %}">📋 Request Medicine</a>
+    <a href="{% url 'admin:index' %}">⚙️ Admin Panel</a>
+    
+    <a href="{% url 'all_prescriptions' %}">🚪 List All Prescriptions</a>
+    <a href="{% url 'login' %}?next={% url 'donate' %}">💊 Donate Medicine</a>
+    <a href="{% url 'donation_dashboard' %}">📊 Donor Dashboard</a>
+      <a href="{% url 'notifications' %}">🔔Notifications</a>
+    {% if user.is_authenticated %}
+      <a href="{% url 'logout' %}">🔒 Logout ({{ user.username }})</a>
+    {% else %}
+      <a href="{% url 'login' %}">🔓 Login</a>
+    {% endif %}
+
+
+
+  </div>
+
+  <!-- Main Content -->
+  <div class="content">
+    {% block content %}{% endblock %}
+  </div>
+
+  <!-- Notification container -->
+  <div id="notification-container"
+       style="position: fixed; top: 20px; right: 20px; z-index: 9999;"></div>
+
+  <!-- Toast Notification Script -->
+  <script>
+    function showNotification(message) {
+        const container = document.getElementById('notification-container');
+        const notif = document.createElement('div');
+        notif.innerText = message;
+        notif.style.background = '#0d6efd';
+        notif.style.color = 'white';
+        notif.style.padding = '10px 20px';
+        notif.style.marginTop = '10px';
+        notif.style.borderRadius = '8px';
+        notif.style.boxShadow = '0 2px 6px rgba(0,0,0,0.2)';
+        notif.style.opacity = 0;
+        notif.style.transition = 'opacity 0.5s';
+        container.appendChild(notif);
+        setTimeout(() => { notif.style.opacity = 1; }, 100);
+        setTimeout(() => { notif.remove(); }, 5000);
+    }
+
+    // Fetch unread notifications every 5 seconds
+    setInterval(() => {
+        fetch('/notifications/unread/')
+            .then(res => res.json())
+            .then(data => {
+                if (data.notifications) {
+                    data.notifications.forEach(n => showNotification(n.message));
+                }
+            });
+    }, 5000);
+  </script>
+
+  <!-- Django Flash Messages (Success / Error / Info) -->
+  {% if messages %}
+    <script>
+      {% for message in messages %}
+        showNotification("{{ message }}");
+      {% endfor %}
+    </script>
+  {% endif %}
+
+  <!-- Show welcome message -->
+  {% if user.is_authenticated %}
+    <script>
+      showNotification("Welcome back, {{ user.username }}! 👋");
+    </script>
+  {% endif %}
+</body>
+</html>

@@ -1,0 +1,151 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="page-container">
+    <div class="card-container">
+        <h2>📋 Request Medicine</h2>
+
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <input type="file" name="prescription" accept="image/*" required>
+            <input type="number" name="price" placeholder="Enter your affordable amount (₹)" min="0" step="0.01" required>
+            <input type="number" name="quantity" placeholder="Enter Quantity" min="1" step="1" required>
+            <input type="number" name="days" placeholder="Enter Deadline (days)" min="1" step="1" required>
+            <button type="submit" class="btn">Upload Prescription</button>
+        </form>
+
+        {% if uploaded_prescription %}
+        <div class="result-card">
+            <h3>📷 Uploaded Prescription:</h3>
+            <img src="{{ uploaded_prescription.url }}" alt="Prescription Image" style="max-width:300px; border-radius:8px; box-shadow:0 3px 8px rgba(0,0,0,0.2);">
+        </div>
+        {% endif %}
+
+        {% if extracted_text %}
+        <div class="result-card">
+            <h3>📝 Extracted Text:</h3>
+            <p>{{ extracted_text }}</p>
+        </div>
+        {% endif %}
+
+        {% if result %}
+        <div class="result-card">
+            <h3>🔍 Medicine Availability:</h3>
+
+            <p><b>Available:</b>
+                {% if result.available %}
+                    <span class="available-text">{{ result.available|join:", " }}</span>
+                {% else %}
+                    None
+                {% endif %}
+            </p>
+
+            <p><b>Unavailable:</b>
+                {% if result.unavailable %}
+                    <span class="unavailable-text">{{ result.unavailable|join:", " }}</span>
+                {% else %}
+                    None
+                {% endif %}
+            </p>
+
+            {% if result.price %}
+                <p><b>Entered Price:</b> ₹{{ result.price }}</p>
+            {% endif %}
+        </div>
+        {% endif %}
+
+        {% if nlp_result %}
+        <div class="result-card">
+            <h3>🧠 NLP Analysis:</h3>
+            <p><b>Sentiment:</b> Polarity = {{ nlp_result.sentiment.polarity }}, Subjectivity = {{ nlp_result.sentiment.subjectivity }}</p>
+            <h4>Noun Phrases Detected:</h4>
+            {% if nlp_result.noun_phrases %}
+              <ul>
+                  {% for phrase in nlp_result.noun_phrases %}
+                      <li>{{ phrase }}</li>
+                  {% endfor %}
+              </ul>
+            {% else %}
+              <p>No key phrases detected.</p>
+            {% endif %}
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+<style>
+.page-container {
+    display: flex;
+    justify-content: center; 
+    align-items: flex-start;     
+    min-height: 100vh;
+    background: #f4f9f6;    
+    padding: 20px;           
+    box-sizing: border-box;
+}
+
+.card-container {
+    width: 100%;
+    max-width: 600px;
+    padding: 25px 30px;
+    border-radius: 12px;
+    background: #ffffff;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+    box-sizing: border-box;
+    text-align: center;
+}
+
+.card-container h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+    color: #065f46;
+    font-weight: 700;
+}
+
+input[type="file"], input[type="number"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 12px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+}
+
+button.btn {
+    padding: 12px;
+    width: 100%;
+    background-color: #22c122;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+button.btn:hover {
+    background-color: #047817;
+}
+
+.result-card {
+    background: #f9f9f9;
+    padding: 15px;
+    margin-top: 15px;
+    border-radius: 8px;
+    text-align: left;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.05);
+}
+.result-card img {
+    display: block;
+    margin: 10px auto;
+}
+
+/* ✅ Text Colors for Availability */
+.available-text {
+    color: #0f9d58; /* Green */
+    font-weight: 600;
+}
+.unavailable-text {
+    color: #d93025; /* Red */
+    font-weight: 600;
+}
+</style>
+{% endblock %}
