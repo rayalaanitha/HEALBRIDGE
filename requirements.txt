@@ -1,0 +1,14 @@
+# Minimal requirements for running the medicine recognizer prototype
+# rapidfuzz is optional but improves fuzzy matching. Install with:
+#   pip install rapidfuzz
+
+rapidfuzz
+
+Django==3.2.18
+djongo==1.5.1
+pillow==9.5.0
+python-dotenv==1.0.0
+
+pandas
+scikit-learn
+joblib
