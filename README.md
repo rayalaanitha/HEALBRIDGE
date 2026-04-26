@@ -28,7 +28,7 @@ Improvements
 - Integrate an external medicines database or pricing API to get real cost data.
 - Add unit tests and integrate into your project's test suite.
 
-# MediBridge (Django + djongo) - Ready-to-run (Day 1)
+# HealBridge (Django + djongo) - Ready-to-run (Day 1)
 
 This is a minimal Django project preconfigured to use **local MongoDB** via **djongo**.
 It includes a small `core` app with a `Medicine` model, simple donation form, and templates.
